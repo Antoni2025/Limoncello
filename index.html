@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora Limoncello</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        text-align: center;
+        padding: 20px;
+    }
+    h1, h2 {
+        color: #2c3e50;
+    }
+    input {
+        width: 60px;
+        padding: 5px;
+        margin: 5px;
+        text-align: center;
+    }
+    button {
+        padding: 10px 20px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+    button:hover {
+        background-color: #218838;
+    }
+    #resultat {
+        margin-top: 20px;
+        padding: 15px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+</style>
+</head>
+<body>
+    <h1>Calculadora Limoncello v1.0</h1>
+    <img src="ImatgeFons.png" alt="Logo limoncello" width="250">
+    
+    <h2>Partim de l'alcohol...</h2>
+    <p>
+        <img src="ampollaalcohol.png" alt="Dibuix Alcohol" width="150">
+    </p>
+    <p>
+        Disposem de <input id="val" type="number" min="0"> litres d'alcohol alimentari<br>
+        amb una graduació del <input id="pur" type="number" min="0"> %
+    </p>
+    
+    <h2>I què volem?</h2>
+    <p>
+        Volem obtenir un limoncello amb <input id="gra" type="number" min="0"> % d'alcohol<br>
+        i un nivell de sucre de <input id="suc" type="number" min="0"> g/l (veure a sota el rang de sucre raonable)
+    </p>
+    
+    <button onclick="Executa()">Calcula</button>
+    <button onclick="location.reload()">Reinicia</button>
+    
+    <div id="resultat"></div>
+    
+    <p><small>
+        Notes:<br>
+        Referent a la graduació:<br>
+        El limoncello de Casa Ametller és del 25%.<br> 
+        La recepta original té una graduació d'aproximadament el 35%.<br>
+        Per internet es troben receptes que arriben a 45%.<br>
+        <br>
+        Referent a la concentració de sucre:<br>
+        La recepta original té un nivell de sucre de 240 g/l<br>
+        La recepta del Mundo Deportivo té un nivell de sucre de 280 g/l<br>
+        Per internet es troben receptes que arriben a 370 g/l.<br>
+        <br>
+        El càlcul del nombre de llimones s'ha fet de forma proporcional a la recepta original d'en Kepa.<br>
+		<br>
+        S'ha considerat que 1kg de sucre passa a tenir un volum de 650cm³ quan es dissol en aigua.<br>
+    </small></p>
+    
+    <script>
+        function Executa() {
+            let val = parseFloat(document.getElementById("val").value);
+            let pur = parseFloat(document.getElementById("pur").value);
+            let gra = parseFloat(document.getElementById("gra").value);
+            let suc = parseFloat(document.getElementById("suc").value);
+
+            if (isNaN(val) || isNaN(pur) || isNaN(gra) || isNaN(suc)) {
+                alert("Si us plau, introdueix valors vàlids.");
+                return;
+            }
+
+            let a = -0.00065 * pur * suc * val / gra - val + (val * pur / gra);
+            let s = 0.0010 * pur * suc * val / gra;
+            let v = (pur * val) / gra;
+            let n = 4 * v;
+
+            let resultat = `
+                <h2>Per obtenir el limoncello desitjat:</h2>
+                <p>Necessites recol·lectar <strong>${n.toFixed(1)}</strong> llimones grans.</p>
+                <p><strong>Almíbar:</strong><br>
+                   - Sucre: ${s.toFixed(2)} kg<br>
+                   - Aigua: ${a.toFixed(2)} l</p>
+                <p>Obtindràs <strong>${v.toFixed(2)}</strong> litres de limoncello
+                   amb <strong>${gra.toFixed(1)}%</strong> d'alcohol i un nivell de sucre de <strong>${suc.toFixed(0)}</strong> g/l.</p>
+            `;
+            document.getElementById("resultat").innerHTML = resultat;
+        }
+    </script>
+</body>
+</html>
